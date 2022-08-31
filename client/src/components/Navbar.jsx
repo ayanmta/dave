@@ -1,0 +1,66 @@
+import React, { useState } from "react";
+import { HiMenuAlt4 } from "react-icons/hi";
+import { AiOutlineClose } from "react-icons/ai";
+import logo from "../../images/logo.png";
+
+const Navbar = () => {
+  const [toggleMenu, setToggleMenu] = useState(false);
+  const NavBarTitle = ({ title, classProps }) => (
+    <li className={`mx-4 cursor-pointer ${classProps}`}>{title}</li>
+  );
+  const menuTitle = ["Market", "Exchange", "Tutorials", "Wallets"];
+  return (
+    <nav className="w-full flex md:justify-center justify-between items-center p-4">
+      <div className="md:flex-[0.5] flex-initial justify-center items-center">
+        <img src={logo} alt="logo" className="w-32 cursor-pointer" />
+      </div>
+
+      <ul className="text-white md:flex hidden flex-row justify-between flex-initial">
+        {menuTitle.map((item, index) => {
+          return <NavBarTitle key={item + index} title={item} />;
+        })}
+        <li className="bg-[#2952e3] -my-3 mx-5 py-2 px-8 rounded-full cursor-pointer hover:bg-[#2546bd]">
+          Login
+        </li>
+      </ul>
+      <div className="flex relative">
+        {toggleMenu ? (
+          <AiOutlineClose
+            fontSize={28}
+            className="text-white md:hidden cursor-pointer "
+            onClick={() => setToggleMenu(false)}
+          />
+        ) : (
+          <HiMenuAlt4
+            fontSize={28}
+            className="text-white md:hidden cursor-pointer "
+            onClick={() => setToggleMenu(true)}
+          />
+        )}
+        {toggleMenu && (
+          <ul
+            className="z-10 fixed top-7 right-3 p-3 w-[55vw] h-screen shadow-2xl md:hidden 
+          flex flex-col justify-start items-end rounded-md blue-glassmorphism text-white animate-slide-in
+          "
+          >
+            <li className="text-xl w-full my-2">
+              {" "}
+              <AiOutlineClose onClick={() => setToggleMenu(false)} />
+            </li>
+            {menuTitle.map((item, index) => {
+              return (
+                <NavBarTitle
+                  key={item + index}
+                  title={item}
+                  classProps="my-2 text-lg"
+                />
+              );
+            })}
+          </ul>
+        )}
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
